@@ -16,3 +16,7 @@ A book library application.
   1. Run `gem install` to install gem dependencies.
   2. Run `npm install` to install JS dependencies.
   3. Configure the `NODE_ENV` environment variable, to *development* (default) or *production*. You can also run `./.profile`.
+
+## Testing
+  1. Run `npm start`
+  2. Open another shell and run `npm test`
