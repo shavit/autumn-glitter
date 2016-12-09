@@ -1,2 +1,2 @@
-import "./components/Book"
+import "./components/BooksGrid"
 import "./components/Sidebar"

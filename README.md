@@ -5,7 +5,7 @@ A book library application.
 ## Tools
 
   1. **ReactJS**
-  2. **Semantic UI** looks better than *Bootstrap*, has nice components and seems to be modular.
+  2. **Semantic UI** looks better than *Bootstrap*, has nice components and seems to be much cleaner and modular.
   3. There is no need for a build tool. *NPM* or *Webpack* can accomplish the same tasks. **Gulp** seem to have a better implementation than *Grunt*, is the default build tools of *Semantic-UI*. *Grunt* seems to disappear.
   4. **Sass** has better approach for development and delivery. Only the required components will be included in the stylesheet. It works well with legacy css too.
   5. **Babel** to use with ES6 and NPM packages.

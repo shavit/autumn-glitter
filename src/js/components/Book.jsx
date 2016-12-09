@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from "react"
+import ReactDOM from "react-dom"
 
 
 export default class Book extends Component {
@@ -10,10 +10,4 @@ export default class Book extends Component {
       </div>
     )
   }
-}
-
-const appDOM = document.getElementById("app")
-if (appDOM != undefined){
-  ReactDOM.render(<Book />,
-    appDOM)
 }
