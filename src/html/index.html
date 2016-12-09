@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Books App</title>
-    <style type="text/css">.preloader{color: #ccc;display: block;margin: 40vh auto;text-align: center;}</style>
+    <style type="text/css">.preload{opacity: 0; transition: opacity 0.3s ease-out;}.preloader{color: #ccc;display: block;margin: 40vh auto;text-align: center;}</style>
   </head>
   <body>
-    <div id="app">
-      <span class="preloader">loading...</span>
+    <nav class="preload ui menu">
+      <a href="/" class="header item brand">Books</a>
+    </nav>
+    <div class="preload ui four column doubling stackable grid container">
+      <div class="column">
+        <div id="sidebar">&nbsp;</div>
+      </div>
+      <div class="three wide column">
+        <div id="app">
+          <span class="preloader">loading...</span>
+        </div>
+      </div>
     </div>
-    <link rel="stylesheet" type="text/css" href="/dist/css/style.css">
-    <script defer async src="http://localhost:8080/webpack-dev-server.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/dist/css/style.css" />
+    <script defer async src="http://localhost:8080/app.js"></script>
   </body>
 </html>
