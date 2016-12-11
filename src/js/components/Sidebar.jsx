@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import {Store, BookReducer} from "../reducers/book"
-
+import {router} from "../Router"
 
 
 export default class Sidebar extends Component {
@@ -23,11 +23,33 @@ export default class Sidebar extends Component {
     })
   }
 
+  reloadBooks(){
+    try {
+      const currentBooks = localStorage.getItem("bookState")
+      const books = JSON.parse(currentBooks)
+
+      Store.dispatch({
+        type: "CREATE",
+        books: books,
+        favorites: this.props.favorites
+      })
+
+    } catch(err){
+      console.log(err)
+      console.error("Error parsing JSON from local storage")
+    }
+  }
+
   findBooks(event){
     event.preventDefault()
 
     let termDOM = ReactDOM.findDOMNode(this.refs.searchTerm)
     let term = termDOM.value.trim()
+
+    // If there are no results in the grid, reload from the store
+    if (this.props.books.length == 0){
+      this.reloadBooks()
+    }
 
     // publish change
     // Store.dispatch({
@@ -42,13 +64,16 @@ export default class Sidebar extends Component {
   filterBooks(event){
     let term = event.target.value
     let re = new RegExp(term, "gi")
-    let books = this.state.books.filter((book) => (
-      book.name.match(re)
-    ))
 
-    this.setState({
-      books: books,
-    })
+    if (term.length == 0){
+      this.reloadBooks()
+      return
+    }
+
+
+    let books = this.props.books.filter((book) => (
+      book.title_suggest.match(re)
+    ))
 
     // publish change
     Store.dispatch({
@@ -67,21 +92,44 @@ export default class Sidebar extends Component {
         <form className="ui form" onSubmit={this.findBooks.bind(this)}>
           <fieldset className="field">
             <label>
-              <input placeholder="Search" type="text" ref="searchTerm" onChange={this.filterBooks.bind(this)} />
+              <input
+                onClick={router.url.bind(router, "index")}
+                placeholder="Search" type="text"
+                ref="searchTerm" onChange={this.filterBooks.bind(this)} />
             </label>
           </fieldset>
         </form>
 
-        <h4 className="title">({favorites.length}) My favorites</h4>
+        <hr className="ui divider" />
+
         <div className="ui relaxed divided list">
-          {(favorites).map((fav, i) => (
-            <div className="item" key={i}>
-              <div className="content">
-                <span className="header">{fav.title_suggest}</span>
-              </div>
-            </div>
-          ))}
+          <a onClick={router.url.bind(router, "index")}
+            className="item">
+            <i className="book icon">&nbsp;</i>
+            <strong className="content">
+              <span className="header">Browse</span>
+              <span className="description">Find books to read.</span>
+            </strong>
+          </a>
+          <a onClick={router.url.bind(router, "favorites")}
+            className="item">
+            <i className="bookmark icon">&nbsp;</i>
+            <strong className="content">
+              <span className="header">My bookmarks</span>
+              <span className="description">Browse your favorite books.</span>
+            </strong>
+          </a>
+          <a onClick={router.url.bind(router, "report")}
+            className="item">
+            <i className="calendar icon">&nbsp;</i>
+            <strong className="content">
+              <span className="header">My history</span>
+              <span className="description">Your reading history. {favorites.length} books that you liked so far.</span>
+            </strong>
+          </a>
+
         </div>
+
       </div>
     )
   }

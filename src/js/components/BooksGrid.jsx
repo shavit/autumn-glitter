@@ -1,11 +1,14 @@
 import React, { Component } from "react"
 import ReactDOM from "react-dom"
 import {Store, BookReducer} from "../reducers/book"
+import {router} from "../Router"
 
 import jQuery from "jquery"
 
 import Sidebar from "./Sidebar"
 import BookIndex from "./books/BookIndex"
+import BookFavorites from "./books/BookFavorites"
+import BookReport from "./books/BookReport"
 
 
 export default class BooksGrid extends Component {
@@ -20,6 +23,7 @@ export default class BooksGrid extends Component {
     }
 
     this.state = {
+      pageName: router.state.action,
       books: new Array(),
       favorites: (favorites || new Array())
     }
@@ -27,6 +31,13 @@ export default class BooksGrid extends Component {
   }
 
   componentWillMount(){
+    // Subscribe to the router
+    router.subscribe((pageName) => {
+      this.setState({
+        pageName: pageName
+      })
+    })
+
     // Subscribe to the store
     Store.subscribe(() => {
       let storeState = Store.getState()
@@ -44,7 +55,7 @@ export default class BooksGrid extends Component {
     const currentBooks = localStorage.getItem("bookState")
 
     // check if local storage is available
-    if (this.canSaveToLocalStorage() && currentBooks){
+    if (this.canSaveToLocalStorage() && !currentBooks){
       jQuery.get("http://openlibrary.org/search.json?author=tolkien", (data) => {
 
         try {
@@ -79,6 +90,7 @@ export default class BooksGrid extends Component {
         this.setState({
           books: books
         })
+
       } catch (err){
         console.log(err)
         console.error("Error parsing JSON from local storage")
@@ -97,15 +109,17 @@ export default class BooksGrid extends Component {
   }
 
   render(){
-    const {books, favorites} = this.state
+    const {pageName, books, favorites} = this.state
 
     return (
       <div className="preload ui four column doubling stackable grid container">
         <div className="four wide column">
           <Sidebar key="1" books={books} favorites={favorites} />
         </div>
-        <div className="twelve wide column">
-          <BookIndex key="2" books={books} favorites={favorites} />
+        <div className={"twelve wide column "+pageName}>
+          <BookIndex pageName={pageName} key="2" books={books} favorites={favorites} />
+          <BookFavorites pageName={pageName} key="3" favorites={favorites} />
+          <BookReport pageName={pageName} key="4" books={books} />
         </div>
       </div>
     )

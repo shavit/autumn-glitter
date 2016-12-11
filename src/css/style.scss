@@ -1,12 +1,49 @@
 @import "../../node_modules/semantic-ui/dist/semantic.min.css";
 
+//
+//  Layout
+//  Forms
+//  Main content
+//     Listing
+//
+
+
+//
+//  Layout
+//
 .preload{
   opacity: 1;
 }
 
+//
+//  Forms
+//
 fieldset{
   border: 0;
 }
+
+//
+//  Main content
+//
+
+#app{
+  padding: 60px 0 0 0;
+}
+
+.content{
+  display: block;
+  opacity: 1;
+  transition: opacity 0.3s ease-out;
+}
+.hidden{
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+}
+
+//
+//    Listing
+//
 
 .card {
   button{
@@ -16,7 +53,17 @@ fieldset{
     padding: inherit;
 
     &:hover{
-      color: #f442aa;
+      .heart{
+        color: #FF3000;
+        text-shadow: 0 -1px 0 #CD0707, -1px 0 0;
+      }
+    }
+
+    .heart{
+      &.active{
+        color: #FF6D75;
+        text-shadow: 0 -1px 0 #AA0101, -1px 0 0;
+      }
     }
   }
 }

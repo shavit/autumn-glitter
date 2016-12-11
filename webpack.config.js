@@ -23,5 +23,11 @@ module.exports = {
     extensions: [
       "", ".js", ".jsx",
     ]
+  },
+  devServer: {
+    port: 8080,
+    historyApiFallback: {
+      index: "src/html/index.html"
+    }
   }
 };

@@ -1,10 +1,6 @@
 import {createStore} from "redux"
-import {Provider, connect} from "react-redux"
 
-export const BookReducer = function(state, action){
-  if (state == undefined){
-    return {}
-  }
+export const BookReducer = function(state={}, action){
 
   switch(action.type){
     case "CREATE":
@@ -17,32 +13,84 @@ export const BookReducer = function(state, action){
       break
 
     case "LIKE":
+      action.favorite.liked = true
+
+      // Try to update the state with favorites
       state.favorites = (state.favorites)
         ?(state.favorites).filter((book) => (
           book.cover_edition_key != action.favorite.cover_edition_key
         )).concat(action.favorite)
         :(new Array(action.favorite))
 
-        try {
+      try {
           localStorage.setItem("favoritesState", JSON.stringify(state.favorites))
         } catch(err) {
           console.log("Error saving favorites to local storage")
         }
+
+      // Try to update the books from the store.
+      // There are more available books in the store than
+      //  in the current state.
+      try {
+        const currentBooks = JSON.parse(localStorage.getItem("bookState"))
+        // Create new book store
+        let books = (currentBooks)
+          ?(currentBooks).map((book) => {
+            if (book.cover_edition_key == action.favorite.cover_edition_key){
+              return action.favorite
+            }
+            return book
+          })
+          :(new Array(action.favorite))
+
+        // Save the books to the store
+        localStorage.setItem("bookState", JSON.stringify(books))
+
+      } catch(err){
+        console.log("Error saving updated books to the store")
+      }
+
       break
 
     case "UNLIKE":
-      state.books = action.books
+      action.favorite.liked = false
+
+      // Try to update the state with favorites
       state.favorites = (state.favorites)
         ?(state.favorites).filter((book) => (
-          book.cover_edition_key == action.favorite.cover_edition_key
+          book.cover_edition_key != action.favorite.cover_edition_key
         ))
         :(new Array())
 
-        try {
+      try {
           localStorage.setItem("favoritesState", JSON.stringify(state.favorites))
         } catch(err) {
           console.log("Error saving favorites to local storage")
         }
+
+      // Try to update the books from the store.
+      // There are more available books in the store than
+      //  in the current state.
+      try {
+        const currentBooks = JSON.parse(localStorage.getItem("bookState"))
+        // Create new book store
+        let books = (currentBooks)
+          ?(currentBooks).map((book) => {
+            if (book.cover_edition_key == action.favorite.cover_edition_key){
+              return action.favorite
+            }
+            return book
+          })
+          :(new Array(action.favorite))
+
+        // Save the books to the store
+        localStorage.setItem("bookState", JSON.stringify(books))
+
+      } catch(err){
+        console.log("Error saving updated books to the store")
+      }
+
+
       break
 
     default:
