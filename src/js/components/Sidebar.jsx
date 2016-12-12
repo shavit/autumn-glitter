@@ -89,7 +89,7 @@ export default class Sidebar extends Component {
 
     return (
       <div className="sidebar">
-        <form className="ui form" onSubmit={this.findBooks.bind(this)}>
+        <form className="ui form search" onSubmit={this.findBooks.bind(this)}>
           <fieldset className="field">
             <label>
               <input
@@ -124,7 +124,8 @@ export default class Sidebar extends Component {
             <i className="calendar icon">&nbsp;</i>
             <strong className="content">
               <span className="header">My history</span>
-              <span className="description">Your reading history. {favorites.length} books that you liked so far.</span>
+              <span className="description">Your reading history.
+                <span className="favorites count">{favorites.length}</span> books that you liked so far.</span>
             </strong>
           </a>
 

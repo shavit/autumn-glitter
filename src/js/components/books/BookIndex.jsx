@@ -64,7 +64,7 @@ export default class BookIndex extends Component {
                   data-rating="1"
                   data-max-rating="3">&nbsp;</div>
                   <span className="left floated star">
-                    <button onClick={this.like.bind(this, book)}>
+                    <button className="like" onClick={this.like.bind(this, book)}>
                       <i className={(book.liked)?"ui heart rating icon active":"ui heart rating icon"}>&nbsp;</i>
                       <span>{(book.liked)?"Liked":"Like"}</span>
                     </button>
