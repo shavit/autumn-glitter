@@ -38,6 +38,7 @@ export default class BookFavorites extends Component {
         favorite: book
       })
     })
+
   }
 
   removeBook(book, event){
@@ -59,6 +60,12 @@ export default class BookFavorites extends Component {
         favorite: book
       })
     })
+
+    // uncheck the input fields
+    let inputFields = document.querySelectorAll("input[type=checkbox]")
+    for (var i=0; i<inputFields.length; i++){
+      inputFields[i].checked = false
+    }
   }
 
   displayTime(t){
@@ -79,7 +86,7 @@ export default class BookFavorites extends Component {
             <thead>
               <tr>
                 <th>&nbsp;</th>
-                <th>Book</th>
+                <th>Book name</th>
                 <th>Added at</th>
                 <th>&nbsp;</th>
               </tr>

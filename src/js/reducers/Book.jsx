@@ -17,11 +17,14 @@ export const BookReducer = function(state={}, action){
       action.favorite.likedAt = (new Date()).getTime()
 
       // Try to update the state with favorites
-      state.favorites = (state.favorites)
+      state.favorites = ((state.favorites)
         ?(state.favorites).filter((book) => (
           book.cover_edition_key != action.favorite.cover_edition_key
         )).concat(action.favorite)
-        :(new Array(action.favorite))
+        :(new Array(action.favorite)))
+        .sort((a, b) => {
+          (a.likedAt-b.likedAt)
+        })
 
       try {
           localStorage.setItem("favoritesState", JSON.stringify(state.favorites))
@@ -58,11 +61,14 @@ export const BookReducer = function(state={}, action){
       delete action.favorite.likedAt
 
       // Try to update the state with favorites
-      state.favorites = (state.favorites)
+      state.favorites = ((state.favorites)
         ?(state.favorites).filter((book) => (
           book.cover_edition_key != action.favorite.cover_edition_key
         ))
-        :(new Array())
+        :(new Array()))
+        .sort((a, b) => {
+          (a.likedAt-b.likedAt)
+        })
 
       try {
           localStorage.setItem("favoritesState", JSON.stringify(state.favorites))
