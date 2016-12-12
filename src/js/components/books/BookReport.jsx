@@ -60,6 +60,13 @@ export default class BookReport extends Component {
       "December"]
   }
 
+  getPathPoints(data){
+
+    return "M0 -1 "+data.map((d,i) => (
+      "L"+((i+1)*11)+" "+(-(d.days.length+1))
+    ))
+  }
+
   generateChartData(chartData){
     let monthsNames = this.months()
     let firstDayOfTheYear = (new Date(this.state.year, 0, 1)).getTime()
@@ -84,34 +91,6 @@ export default class BookReport extends Component {
         days: days
       }
     })
-
-
-    let chart = {
-        labels: this.months(),
-        datasets: [
-            {
-                label: "Books",
-                fill: true,
-                backgroundColor: "rgba(205, 220, 57, 1)",
-                borderColor: "rgba(175, 180, 43, 1)",
-                borderCapStyle: "butt",
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "rgba(189, 189, 189, 1)",
-                pointBackgroundColor: "#fff",
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgba(240, 244, 195, 1)",
-                pointHoverBorderColor: "rgba(189, 189, 189, 1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: [90, 40, 60, 10, 48, 27, 44, 56, 28, 28],
-                spanGaps: false,
-            },
-        ]
-    }
 
     return monthlyData
   }
@@ -146,8 +125,23 @@ export default class BookReport extends Component {
             </button>
           </div>
 
-          <div className="ui">
-            <strong>CHART</strong>
+          <div className="ui chart">
+            <svg width="100%" height="420">
+              <g className="chart line"
+                transform="scale(4.8),translate(-8,88)">
+                <path
+                  d={this.getPathPoints(summaryData)}
+                  fill="none"
+                  stroke="#21BA45"
+                  strokeWidth="1.8"
+                />
+              </g>
+            </svg>
+            <div className="ui tiny horizontal list">
+              {(this.months().map((m, i) => (
+                <span key={i} className="item">{m}</span>
+              )))}
+            </div>
           </div>
 
           <table className="ui selectable single teal line table">
@@ -210,7 +204,7 @@ export default class BookReport extends Component {
             </button>
           </div>
 
-          <table className="ui single teal line table">
+          <table className="ui single orange line table">
             <thead>
               <tr>
                 <th className="four wide">&nbsp;</th>
