@@ -115,7 +115,7 @@ export default class Sidebar extends Component {
             className="item">
             <i className="bookmark icon">&nbsp;</i>
             <strong className="content">
-              <span className="header">My bookmarks</span>
+              <span className="header">My {(favorites.length)?(favorites.length):null} bookmarks</span>
               <span className="description">Browse your favorite books.</span>
             </strong>
           </a>
@@ -124,8 +124,9 @@ export default class Sidebar extends Component {
             <i className="calendar icon">&nbsp;</i>
             <strong className="content">
               <span className="header">My history</span>
-              <span className="description">Your reading history.
-                <span className="favorites count">{favorites.length}</span> books that you liked so far.</span>
+              <span className="description">Your reading history.&nbsp;
+                <span className="favorites count">{favorites.length}</span>
+                books that you have liked so far.</span>
             </strong>
           </a>
 

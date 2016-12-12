@@ -119,7 +119,7 @@ export default class BooksGrid extends Component {
         <div className={"twelve wide column "+pageName}>
           <BookIndex pageName={pageName} key="2" books={books} favorites={favorites} />
           <BookFavorites pageName={pageName} key="3" favorites={favorites} />
-          <BookReport pageName={pageName} key="4" books={books} />
+          <BookReport pageName={pageName} key="4" books={books} favorites={favorites} />
         </div>
       </div>
     )

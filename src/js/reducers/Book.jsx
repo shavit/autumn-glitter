@@ -14,6 +14,7 @@ export const BookReducer = function(state={}, action){
 
     case "LIKE":
       action.favorite.liked = true
+      action.favorite.likedAt = (new Date()).getTime()
 
       // Try to update the state with favorites
       state.favorites = (state.favorites)
@@ -54,6 +55,7 @@ export const BookReducer = function(state={}, action){
 
     case "UNLIKE":
       action.favorite.liked = false
+      delete action.favorite.likedAt
 
       // Try to update the state with favorites
       state.favorites = (state.favorites)

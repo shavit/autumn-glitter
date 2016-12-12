@@ -40,6 +40,31 @@ export default class BookFavorites extends Component {
     })
   }
 
+  removeBook(book, event){
+    event.preventDefault()
+
+    let checkboxes = (this.state.checkboxesToRemove).filter((checkbox) => (
+      book.cover_edition_key != checkbox
+    )).concat(book.cover_edition_key)
+
+    let books = this.props.favorites.filter((favorite) => (
+        (checkboxes.filter((checkbox) => (
+          (favorite.cover_edition_key == checkbox)
+        )).length > 0)
+      ))
+
+    books.map((book) => {
+      Store.dispatch({
+        type: "UNLIKE",
+        favorite: book
+      })
+    })
+  }
+
+  displayTime(t){
+    return (new Date(t).toString()).split(" GMT")[0]
+  }
+
   render(){
     const {pageName, favorites} = this.props
 
@@ -55,7 +80,7 @@ export default class BookFavorites extends Component {
               <tr>
                 <th>&nbsp;</th>
                 <th>Book</th>
-                <th>Name</th>
+                <th>Added at</th>
                 <th>&nbsp;</th>
               </tr>
             </thead>
@@ -68,13 +93,15 @@ export default class BookFavorites extends Component {
                       ref={"fav-"+i}
                       onChange={this.handleCheckboxChange.bind(this)}
                       value={book.cover_edition_key} />
-                    <label htmlFor={"fav-"+i} >{i}</label>
+                    <label htmlFor={"fav-"+i} >{i+1}</label>
                   </div>
                 </td>
                 <td>{book.title_suggest}</td>
-                <td>{book.title_suggest}</td>
+                <td>{this.displayTime(book.likedAt)}</td>
                 <td>
-                  <button className="ui red basic tiny button">
+                  <button
+                    onClick={this.removeBook.bind(this, book)}
+                    className="ui red basic tiny button">
                     <i className="remove circle icon"></i>
                     <span>Remove</span>
                   </button>
